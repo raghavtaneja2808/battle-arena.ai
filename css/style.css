@@ -75,6 +75,9 @@ main{
   color: var(--yellow);
   text-shadow: 5px 5px 0 var(--red), 10px 10px 0 var(--blue);
 }
+.logo:hover{
+    text-shadow: 1px 1px 0 var(--red), 2px 2px 0 var(--blue);
+}
 .tagline{
   font-size: 36px;
   margin-top: 30px;
@@ -209,4 +212,13 @@ main{
   border-top: 4px solid var(--yellow);
   text-align: center;
   color: var(--purple);
+}
+.blink {
+    animation: blink 0.3s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
 }
