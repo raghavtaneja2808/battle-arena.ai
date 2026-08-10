@@ -22,7 +22,6 @@ body {
   color: var(--white);
   font-family: var(--body-font);
   font-size: 24px;
-  min-height: 100vh;
 }
 
 a {
@@ -72,7 +71,6 @@ main{
 .title{
   font-family: var(--head-font);
   font-size: 64px;
-  font-weight: normal;
   line-height: 1.3;
   color: var(--yellow);
   text-shadow: 5px 5px 0 var(--red), 10px 10px 0 var(--blue);
@@ -85,4 +83,130 @@ main{
   color: var(--purple);
   max-width: 600px;
   margin: 8px auto 0;
+}
+.games{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-top: 80px;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  border: 4px solid;
+}
+.card:hover{
+  transform: translate(-4px, -4px);
+}
+
+.card-art{
+  height: 220px;
+  background: var(--bg);
+  border: 4px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 80px;
+  margin-bottom: 24px;
+}
+
+.card h2{
+  font-family: var(--head-font);
+  font-size: 22px;
+}
+.card p{
+  margin: 14px 0 24px;
+  flex: 1;
+}
+
+.play-btn{
+  padding: 16px;
+  text-align: center;
+  border: 4px solid #fff;
+  font-family: var(--head-font);
+  font-size: 16px;
+}
+.play-btn:hover{
+  background: var(--yellow);
+  color: #111;
+}
+
+.card-blue{
+  background: #15153a;
+  border-color: var(--blue);
+}
+.card-blue .card-art{
+  border-color: var(--blue);
+}
+.card-blue .play-btn{
+  background: var(--blue);
+}
+.card-blue:hover{
+  box-shadow: 12px 12px 0 var(--blue);
+}
+
+.card-red{
+  background: #2a1030;
+  border-color: var(--red);
+}
+.card-red .card-art{
+  border-color: var(--red);
+}
+.card-red .play-btn{
+  background: var(--red);
+}
+.card-red:hover{
+  box-shadow: 12px 12px 0 var(--red);
+}
+.how{
+  margin-top: 80px;
+}
+.how h2{
+  font-family: var(--head-font);
+  font-size: 18px;
+  color: var(--green);
+  margin-bottom: 20px;
+}
+.steps{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 24px;
+}
+.step{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 4px dashed;
+}
+.step span{
+  font-family: var(--head-font);
+}
+
+.yellow{
+  border-color: var(--yellow);
+}
+.yellow span{
+  color: var(--yellow);
+}
+.green{
+  border-color: var(--green);
+}
+.green span{
+  color: var(--green);
+}
+.red{
+  border-color: var(--red);
+}
+.red span{
+  color: var(--red);
+}
+
+.footer{
+  padding: 20px;
+  border-top: 4px solid var(--yellow);
+  text-align: center;
+  color: var(--purple);
 }
