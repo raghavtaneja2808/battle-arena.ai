@@ -222,3 +222,66 @@ main{
         opacity: 0;
     }
 }
+.uno-card{
+  width: 70px;
+  height: 100px;
+  border: 4px solid #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: var(--head-font);
+  font-size: 20px;
+}
+.uno-red{
+  background: var(--red);
+}
+.uno-blue{
+  background: var(--blue);
+}
+.uno-green{
+  background: var(--green);
+  color: #111;
+}
+.uno-yellow{
+  background: var(--yellow);
+  color: #111;
+}
+.tank{
+  position: relative;
+  width: 256px;
+  height: 144px;
+}
+.tank div{
+  position: absolute;
+}
+.barrel{
+  left: 130px;
+  top: 28px;
+  width: 120px;
+  height: 20px;
+  background: var(--yellow);
+}
+.turret{
+  left: 70px;
+  top: 10px;
+  width: 80px;
+  height: 60px;
+}
+.tank-body{
+  left: 20px;
+  top: 64px;
+  width: 180px;
+  height: 45px;
+}
+.turret, .tank-body{
+  background: var(--red);
+  box-shadow: inset -10px -10px 0 #b3122e;
+}
+.tracks{
+  left: 6px;
+  top: 106px;
+  width: 208px;
+  height: 36px;
+  border-top: 6px solid var(--yellow);
+  background: repeating-linear-gradient(90deg, #555 0 16px, #333 16px 32px);
+}
