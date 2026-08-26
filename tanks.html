@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Tank Battle - Battle Arena.ai</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/tanks.css">
+</head>
+
+<body>
+
+<header class="navbar">
+    <a href="index.html" class="logo">BATTLE ARENA.AI</a>
+    <nav class="nav-links">
+      <a href="index.html" class="active"><span class="blink">></span> HOME</a>
+      <a href="#">ABOUT</a>
+      <a href="https://github.com/raghavtaneja2808/battle-arena.ai">GITHUB</a>
+    </nav>
+  </header>
+  <main>
+    <!-- HUD -->
+    <section class="game-info">
+      <div class="player">
+        <div class="player-info">
+          <span class="p1-name">PLAYER 1</span>
+          <span id="hp1-text">100 HP</span>
+        </div>
+        <div class="hp-bar p1-bar"><div class="hp-fill" id="hp1-fill"></div></div>
+      </div>
+
+      <div class="middle">
+        <span class="wind-title">WIND</span>
+        <span id="wind">->->8</span>
+        <span id="turn">PLAYER 1'S TURN</span>
+      </div>
+
+      <div class="player">
+        <div class="player-info">
+          <span id="hp2-text">100 HP</span>
+          <span class="p2-name">PLAYER 2</span>
+        </div>
+        <div class="hp-bar p2-bar"><div class="hp-fill" id="hp2-fill"></div></div>
+      </div>
+    </section>
+
+    <!-- Game -->
+    <section class="game-box">
+      <canvas id="game" width="1000" height="500"></canvas>
+    </section>
+
+    <!-- Controls -->
+    <section class="controls">
+      <label class="slider-box">
+        <span class="slider-top">
+          <span class="slider-label">ANGLE</span>
+          <span class="slider-value" id="angle-value">45°</span>
+        </span>
+        <input type="range" id="angle" min="0" max="90" value="45">
+      </label>
+
+      <label class="slider-box">
+        <span class="slider-top">
+          <span class="slider-label">POWER</span>
+          <span class="slider-value" id="power-value">70</span>
+        </span>
+        <input type="range" id="power" min="10" max="100" value="70">
+      </label>
+    <div class="hint">← →  ANGLE   ↑ ↓  POWER    SPACE  FIRE</div>
+
+      <button id="fire-btn">FIRE!</button>
+    </section>
+
+  </main>
+
+  <!-- copy your <footer> from index.html here -->
+   <script src="js/tanks.js"></script>
+    <script src="js/components.js"></script>
+</body>
+
+</html>
