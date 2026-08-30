@@ -1,9 +1,43 @@
 //angle and power change slider
+document.addEventListener("keydown",(e)=>{
+    if(e.key=="ArrowRight"){
+        angleSlider.value=Number(angleSlider.value)+1;
+        angleSlider.dispatchEvent(new Event("input"));
+    }
+    else if(e.key=="ArrowLeft"){
+        angleSlider.value=Number(angleSlider.value)-1;
+        angleSlider.dispatchEvent(new Event("input"));
+    }
+    else if(e.key=="ArrowUp"){
+        powerSlider.value=Number(powerSlider.value)+1;
+        powerSlider.dispatchEvent(new Event("input"));
+    }
+    else if(e.key=="ArrowDown"){
+        powerSlider.value=Number(powerSlider.value)-1;
+        powerSlider.dispatchEvent(new Event("input"));
+    }
+    else if(e.key==" "){
+        fire();
+    }
+    else return;
+    e.preventDefault();
+});
+
+let wind;
+function newWind(){
+    wind=Math.round(Math.random() * 20 - 10);
+    if(wind>0) document.querySelector("#wind").textContent="→ "+wind;
+    else if(wind<0) document.querySelector("#wind").textContent="← "+Math.abs(wind);
+    else document.querySelector("#wind").textContent="0";
+}
+newWind();
+
+var hp1=100;var hp2=100;
 var turn=1;
 var angle1=0;var angle2=0;
-var power1=0;var power2=0;
-var radianAngle1=0;
-var radianAngle2=0;
+var power1=45;var power2=45;
+var radianAngle1=Number(angle1)*Math.PI/180;;
+var radianAngle2=Number(angle2)*Math.PI/180;;
 var tipX;var tip2X;var tip2Y;var tipY;
 const angleSlider = document.querySelector('#angle');
 const angle = document.querySelector('#angle-value');
@@ -34,6 +68,7 @@ const pen = canvas.getContext("2d");
 
 //tank
 function drawTank(x, color) {
+
   //tracks
   pen.fillStyle = "#333";
   pen.fillRect(x, 432, 40, 8);
@@ -44,7 +79,9 @@ function drawTank(x, color) {
   pen.fillRect(x +10,412, 20, 10);
 }
 function draw(){
-    //ground
+        pen.clearRect(0, 0, 1000, 500);
+            document.querySelector("#turnno").textContent=turn;
+       //ground
     
 pen.fillStyle="#29d66a";
 pen.fillRect(0,440,1000,1000)
@@ -76,23 +113,69 @@ drawTank(840,"#ff2a4a");
 }
 
 angleSlider.addEventListener("input",()=>{
-    pen.clearRect(0, 0, 1000, 500);
 draw();
 })
 
 draw();
+function burst(x, y) {
+    let particles = [];
+
+    for (let i = 0; i < 8; i++) {
+        let angle = Math.random() * Math.PI * 2;
+        let speed = Math.random() * 1.5 + 0.5;
+
+        particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 10
+        });
+    }
+
+    function animateBurst() {
+
+        for (let p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.life--;
+
+            pen.beginPath();
+            pen.arc(p.x, p.y, 2, 0, Math.PI * 2);
+            pen.fill();
+        }
+
+        particles = particles.filter(p => p.life > 0);
+
+        if (particles.length > 0) {
+            requestAnimationFrame(animateBurst);
+        }
+    }
+
+    animateBurst();
+}
+function hitTank(x,y,tankX){
+    return x>=tankX && x<=tankX+40 && y>=412;
+}
 function fire(){
+    
+    power1=Number(powerSlider.value);
+    power2=power1;
+    angle1=Number(angleSlider.value);
+    angle2=angle1;
+    radianAngle1 = Number(angle1)*Math.PI/180;
+    radianAngle2 = Number(angle2)*Math.PI/180;
+    draw();
     var vx;var vy;
     power2=power1;
     if(turn==1){
-        console.log(`power  = ${power1} angle = ${angle1}`)
+        console.log(`power  = ${power1} angle = ${radianAngle1}`)
         vx=power1*Math.cos(radianAngle1)*0.2;
-        vy=-power1*Math.sin(radianAngle2)*0.2;
+        vy=-power1*Math.sin(radianAngle1)*0.2;
         var x = tipX;var y=tipY;
         var steps=0;
         let path=[];
        function throwBall(){
-            pen.clearRect(0, 0, 1000, 500);
             draw();
         pen.beginPath();
         pen.arc(x,y,4,0,Math.PI*2);
@@ -103,20 +186,33 @@ function fire(){
             x+=vx;
             y+=vy;
             vy+=0.25;
+            vx+=wind*0.006;
             steps++;
-            if(y<440){
-        requestAnimationFrame(throwBall);}
-        for(i=0;i<path.length;i++){
-            //     pen.lineWidth=5;
-            // pen.fillStyle='#ffd400';
-            // pen.beginPath();
-            pen.moveTo(path[i].x,path[i].y);
-            pen.lineTo(path[i].x+5,path[i].y-5);
-            pen.stroke();
-        }
-       
+            //check if hit the other tank
+            if(hitTank(x,y,840)){
+                burst(x,y);
+                if(x<=850 || x>=870) hp2-=20;
+                else hp2-=30;
+                document.querySelector("#hp2-text").textContent=hp2+" HP";
+                document.querySelector("#hp2-fill").style.width=hp2+"%";
+                turn=2;
+                newWind();
+            }
+            else if(y>=440){
+                pen.fillStyle="#ffd400";
+                for(let i=0;i<path.length;i++){
+                    if(i%3==0) pen.fillRect(path[i].x-2,path[i].y-2,4,4);
+                }
+                turn=2;
+                newWind();
+            }
+            else{
+                requestAnimationFrame(throwBall);
+            }
        }
        throwBall();
+        
+
         for(i=0;i<path.length;i++){
                 pen.lineWidth=5;
             pen.fillStyle='#ffd400';
@@ -140,10 +236,76 @@ function fire(){
         //     }
         // }
         // pathDraw();
-        turn=2;
     }
-    else turn=1;
+    else{
+        
+        console.log(`power  = ${power2} angle = ${radianAngle2}`)
+        console.log(`power  = ${power1} angle = ${radianAngle1}`)
+        vx=power2*Math.cos(radianAngle2)*0.2;
+        vy=-power2*Math.sin(radianAngle2)*0.2;
+        var x = tip2X;var y=tip2Y;
+        var steps=0;
+        let path=[];
+       function throwBall(){
+            draw();
+        pen.beginPath();
+        pen.arc(x,y,4,0,Math.PI*2);
+        pen.fillStyle="#ffd400";
+        pen.fill();
+        pen.closePath();
+        path.push({x,y});
+            x-=vx;
+            y+=vy;
+            vx-=wind*0.006;
+            vy+=0.25;
+            steps++;
+            //check if hit the other tank
+            if(hitTank(x,y,120)){
+                burst(x,y);
+                if(x<=120 || x>=140) hp1-=20;
+                else hp1-=30;
+                document.querySelector("#hp1-text").textContent=hp1+" HP";
+                document.querySelector("#hp1-fill").style.width=hp1+"%";
+                turn=1;
+                newWind();
+            }
+            else if(y>=440){
+                pen.fillStyle="#ffd400";
+                for(let i=0;i<path.length;i++){
+                    if(i%3==0) pen.fillRect(path[i].x-2,path[i].y-2,4,4);
+                }
+                turn=1;
+                newWind();
+            }
+            else{
+                requestAnimationFrame(throwBall);
+            }
+       }
+       throwBall();
+        
+
+        for(i=0;i<path.length;i++){
+                pen.lineWidth=5;
+            pen.fillStyle='#ffd400';
+            pen.beginPath();
+            pen.moveTo(path[i].x+20,path[i].y-20);
+            pen.lineTo(path[i].x+5,path[i].y-5);
+            pen.stroke();
+        }
+    };
+    if(hp1<=0){
+        gameOver(2);
+    }
+    else if(hp2<=0){
+        gameOver(1);
+    }
     console.log("now turn is of player "+turn);
+    document.querySelector("#turnno").textContent=turn;
+    
+}
+function gameOver(winner){
+    document.querySelector("#winner").textContent="PLAYER "+winner+" WINS";
+    document.querySelector("#game-over").style.display="flex";
 }
 
 

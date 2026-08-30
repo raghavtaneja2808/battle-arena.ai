@@ -35,7 +35,7 @@
       <div class="middle">
         <span class="wind-title">WIND</span>
         <span id="wind">->->8</span>
-        <span id="turn">PLAYER 1'S TURN</span>
+        <span id="turn">PLAYER <span id="turnno">1</span>'S TURN</span>
       </div>
 
       <div class="player">
@@ -50,6 +50,12 @@
     <!-- Game -->
     <section class="game-box">
       <canvas id="game" width="1000" height="500"></canvas>
+      <div id="game-over">
+  <h2>GAME OVER</h2>
+  <p id="winner">PLAYER 1 WINS</p>
+  <button onclick="location.reload()">PLAY AGAIN</button>
+</div>
+
     </section>
 
     <!-- Controls -->
@@ -65,9 +71,9 @@
       <label class="slider-box">
         <span class="slider-top">
           <span class="slider-label">POWER</span>
-          <span class="slider-value" id="power-value">0</span>
+          <span class="slider-value" id="power-value">45</span>
         </span>
-        <input type="range" id="power" min="10" max="100" value="0">
+        <input type="range" id="power" min="10" max="100" value="45">
       </label>
     <div class="hint">← →  ANGLE   ↑ ↓  POWER    SPACE  FIRE</div>
 
