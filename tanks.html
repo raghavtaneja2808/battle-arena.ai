@@ -30,6 +30,7 @@
           <span id="hp1-text">100 HP</span>
         </div>
         <div class="hp-bar p1-bar"><div class="hp-fill" id="hp1-fill"></div></div>
+        <input class="model-input" id="model1" value="openai/gpt-oss-120b">
       </div>
 
       <div class="middle">
@@ -44,6 +45,7 @@
           <span class="p2-name">PLAYER 2</span>
         </div>
         <div class="hp-bar p2-bar"><div class="hp-fill" id="hp2-fill"></div></div>
+        <input class="model-input" id="model2" value="qwen/qwen3.8-27b">
       </div>
     </section>
 
@@ -77,6 +79,7 @@
       </label>
     <div class="hint">← →  ANGLE   ↑ ↓  POWER    SPACE  FIRE</div>
 
+      <button id="ai-btn" onclick="startAI()">AI</button>
       <button id="fire-btn" onclick="fire()">FIRE!</button>
     </section>
 
@@ -84,6 +87,7 @@
 
   <!-- copy your <footer> from index.html here -->
    <script src="js/tanks.js"></script>
+   <script src="js/tankAi.js"></script>
     <script src="js/components.js"></script>
 </body>
 

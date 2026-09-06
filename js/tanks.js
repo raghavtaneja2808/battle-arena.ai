@@ -1,5 +1,6 @@
 //angle and power change slider
 document.addEventListener("keydown",(e)=>{
+    if(e.target.classList.contains("model-input")) return;
     if(e.key=="ArrowRight"){
         angleSlider.value=Number(angleSlider.value)+1;
         angleSlider.dispatchEvent(new Event("input"));
@@ -191,20 +192,19 @@ function fire(){
             //check if hit the other tank
             if(hitTank(x,y,840)){
                 burst(x,y);
-                if(x<=850 || x>=870) hp2-=20;
-                else hp2-=30;
+                var damage=30;
+                if(x<=850 || x>=870) damage=20;
+                hp2-=damage;
                 document.querySelector("#hp2-text").textContent=hp2+" HP";
                 document.querySelector("#hp2-fill").style.width=hp2+"%";
-                turn=2;
-                newWind();
+                shotDone(1,x,damage);
             }
             else if(y>=440){
                 pen.fillStyle="#ffd400";
                 for(let i=0;i<path.length;i++){
                     if(i%3==0) pen.fillRect(path[i].x-2,path[i].y-2,4,4);
                 }
-                turn=2;
-                newWind();
+                shotDone(1,x,0);
             }
             else{
                 requestAnimationFrame(throwBall);
@@ -262,20 +262,19 @@ function fire(){
             //check if hit the other tank
             if(hitTank(x,y,120)){
                 burst(x,y);
-                if(x<=120 || x>=140) hp1-=20;
-                else hp1-=30;
+                var damage=30;
+                if(x<=130 || x>=150) damage=20;
+                hp1-=damage;
                 document.querySelector("#hp1-text").textContent=hp1+" HP";
                 document.querySelector("#hp1-fill").style.width=hp1+"%";
-                turn=1;
-                newWind();
+                shotDone(2,x,damage);
             }
             else if(y>=440){
                 pen.fillStyle="#ffd400";
                 for(let i=0;i<path.length;i++){
                     if(i%3==0) pen.fillRect(path[i].x-2,path[i].y-2,4,4);
                 }
-                turn=1;
-                newWind();
+                shotDone(2,x,0);
             }
             else{
                 requestAnimationFrame(throwBall);
@@ -293,20 +292,51 @@ function fire(){
             pen.stroke();
         }
     };
+}
+
+let history1=[];
+let history2=[];
+let autoPlay=false;
+
+function shotDone(player,landX,damage){
+    var myWind=wind;
+    var enemyX=860;
+    if(player==2){
+        myWind=-wind;
+        enemyX=140;
+    }
+    var result;
+    if(damage>0){
+        result="HIT the enemy for "+damage+" damage";
+    }
+    else{
+        var gap=Math.round(Math.abs(landX-enemyX));
+        var isShort=(player==1 && landX<enemyX) || (player==2 && landX>enemyX);
+        if(isShort) result="missed, landed "+gap+" px SHORT of the enemy";
+        else result="missed, landed "+gap+" px PAST the enemy";
+    }
+    var line="angle "+angle1+", power "+power1+", wind "+myWind+" -> "+result;
+    if(player==1) history1.push(line);
+    else history2.push(line);
+
+    if(player==1) turn=2;
+    else turn=1;
+    newWind();
+    document.querySelector("#turnno").textContent=turn;
+
     if(hp1<=0){
+        autoPlay=false;
         gameOver(2);
     }
     else if(hp2<=0){
+        autoPlay=false;
         gameOver(1);
     }
-    console.log("now turn is of player "+turn);
-    document.querySelector("#turnno").textContent=turn;
-    
+    else if(autoPlay){
+        setTimeout(aiShot,1000);
+    }
 }
 function gameOver(winner){
     document.querySelector("#winner").textContent="PLAYER "+winner+" WINS";
     document.querySelector("#game-over").style.display="flex";
 }
-
-
-
