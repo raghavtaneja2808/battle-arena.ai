@@ -285,3 +285,7 @@ main{
   border-top: 6px solid var(--yellow);
   background: repeating-linear-gradient(90deg, #555 0 16px, #333 16px 32px);
 }
+.about p{
+  max-width: 700px;
+  margin-bottom: 16px;
+}
